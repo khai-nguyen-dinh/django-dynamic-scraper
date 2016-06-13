@@ -18,6 +18,7 @@ Django Dynamic Scraper tries to keep its data structure in the database as separ
 >  - scrapyd
 >  - django-celery
 >  - django-dynamic-scraper
+
 Documents
 -------------
 
