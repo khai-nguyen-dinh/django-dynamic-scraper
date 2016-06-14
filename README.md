@@ -1,12 +1,12 @@
-With Django Dynamic Scraper (DDS) you can define your Scrapy scrapers dynamically via the Django admin interface and save your scraped items in the database you defined for your Django project. Since it simplifies things DDS is not usable for all kinds of scrapers, but it is well suited for the relatively common case of regularly scraping a website with a list of updated items (e.g. news, events, etc.) and than dig into the detail page to scrape some more infos for each item.
+Django-dynamic-scraper
+===================
 
-Here are some examples for some use cases of DDS: Build a scraper for ...
+Django-dynamic-scraper use scrapy base on django framework and use admin django interface create scrapy crawl many website.
 
-Local music events for different event locations in your city
-New organic recipes for asian food
-The latest articles from blogs covering fashion and style in Berlin
-...Up to your imagination! :-)
-Django Dynamic Scraper tries to keep its data structure in the database as separated as possible from the models in your app, so it comes with its own Django model classes for defining scrapers, runtime information related to your scraper runs and classes for defining the attributes of the models you want to scrape. So apart from a few foreign key relations your Django models stay relatively independent and you don’t have to adjust your model code every time DDS’s model structure changes.
+----------
+
+#### <i class="icon-hdd"></i> Requirements:
+
 
 
 >  - Python 2.7+ or 3.4+
@@ -19,7 +19,9 @@ Django Dynamic Scraper tries to keep its data structure in the database as separ
 >  - django-celery
 >  - django-dynamic-scraper
 
-Documents
+
+
+#### <i class="icon-file"></i> Documents
 -------------
 
 [Tutorial DDS](https://django-dynamic-scraper.readthedocs.io)
@@ -27,3 +29,87 @@ Documents
 [Scrapyd-client](https://github.com/scrapy/scrapyd-client)
 
 [DjangoItem in scrapy](https://github.com/scrapy-plugins/scrapy-djangoitem)
+
+## SETUP:
+
+## 1. Install docker, compose
+
+<i class="icon-cog"></i>  install docker
+> wget -qO- https://get.docker.com/ | sh
+sudo usermod -a -G docker `whoami`
+
+<i class="icon-cog"></i>  install compose
+> sudo wget -q https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` \
+    -O /usr/local/bin/docker-compose
+> sudo chmod +x /usr/local/bin/docker-compose
+
+**Tip** : after that, logout, then login for update environment
+
+---------
+
+## 2. Run docker django-dynamic-scraper
+
+- clone git onfta-crawler
+> git clone git@gitlab.com:hv-db04/onfta-crawler.git
+> cd onfta-crawler/django_dynamic_scraper
+
+- run docker onfta-crawler
+> docker-compose up -d
+> docker exec -it <id container> bash
+
+---------
+
+## 3. Defining the object to be scraped
+
+
+
+
+- create Database utf8
+>  CREATE DATABASE news CHARACTER SET utf8 COLLATE utf8_general_ci;
+> $cd djangoItem
+
+- create user admin
+>  python manage.py createsuperuser
+
+- run django server
+>  python manage.py runserver 0.0.0.0:8000
+
+- show admin django in browser
+> + http://localhost:8000/admin
+
+> + add New Scraped object classes
+> + add New Scrapers
+> + add News websites
+
+---------
+
+## 4. run crawl data
+
+
+> **run**:
+
+**script:** ` scrapy crawl [--output=FILE --output-format=FORMAT] SPIDERNAME -a id=REF_OBJECT_ID [-a do_action=(yes|no) -a run_type=(TASK|SHELL) -a max_items_read={Int} -a max_items_save={Int} -a max_pages_read={Int} -a output_num_mp_response_bodies={Int} -a output_num_dp_response_bodies={Int} ] `
+
+>  scrapy crawl news -a id=1 -a do_action=yes
+
+-----------------------------
+## 5. run schedule crawl:
+
+>  **deploy project scrapy**:
+
+> - cd crawl
+> - scrapyd-deploy -p crawl
+> - scrapyd
+
+---------
+
+> **run schedule scrapy**:
+
+**script:** `python manage.py celeryd -l info -B --settings=example_project.settings`
+
+> python manage.py celeryd -l info -B --settings=djangoItem.settings
+
+---------
+>**run check  error expath**:
+
+**script:** `scrapy crawl news_checker -a id=ITEM_ID -a do_action=yes`
