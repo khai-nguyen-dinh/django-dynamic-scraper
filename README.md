@@ -5,7 +5,7 @@ Django-dynamic-scraper use scrapy base on django framework and use admin django 
 
 ----------
 
-#### <i class="icon-hdd"></i> Requirements:
+## Requirements:
 
 
 
@@ -21,7 +21,7 @@ Django-dynamic-scraper use scrapy base on django framework and use admin django 
 
 
 
-#### <i class="icon-file"></i> Documents
+## Documents
 -------------
 
 [Tutorial DDS](https://django-dynamic-scraper.readthedocs.io)
@@ -34,11 +34,11 @@ Django-dynamic-scraper use scrapy base on django framework and use admin django 
 
 ## 1. Install docker, compose
 
-<i class="icon-cog"></i>  install docker
+install docker
 > wget -qO- https://get.docker.com/ | sh
 sudo usermod -a -G docker `whoami`
 
-<i class="icon-cog"></i>  install compose
+ install compose
 > sudo wget -q https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` \
     -O /usr/local/bin/docker-compose
 > sudo chmod +x /usr/local/bin/docker-compose
@@ -75,7 +75,7 @@ sudo usermod -a -G docker `whoami`
 >  python manage.py runserver 0.0.0.0:8000
 
 - show admin django in browser
-> + http://localhost:8000/admin
+>  http://localhost:8000/admin
 
 > + add New Scraped object classes
 > + add New Scrapers
